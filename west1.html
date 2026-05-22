@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEST — manga café shibuya</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Georgia,serif;color:#222;background:#fff;}
+nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:1px solid #e5e5e5;flex-wrap:wrap;gap:0.5rem;}
+.logo{font-size:20px;font-weight:500;letter-spacing:6px;}
+.nav-links{display:flex;gap:1.2rem;list-style:none;flex-wrap:wrap;}
+.nav-links a{font-size:11px;letter-spacing:2px;color:#888;text-decoration:none;cursor:pointer;text-transform:uppercase;}
+.nav-links a:hover,.nav-links a.active{color:#222;}
+.page{display:none;}
+.page.active{display:block;}
+.hero-img{width:100%;height:340px;object-fit:cover;display:block;}
+.hero-overlay{text-align:center;padding:2.5rem 1rem;border-bottom:1px solid #e5e5e5;}
+.hero-overlay h1{font-size:32px;font-weight:500;letter-spacing:10px;margin-bottom:0.5rem;}
+.hero-overlay p{font-size:11px;letter-spacing:4px;color:#888;}
+.section{padding:2rem;}
+.section-label{font-size:11px;letter-spacing:3px;color:#888;text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:1px solid #e5e5e5;}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-bottom:2rem;}
+.photo-grid img{width:100%;height:160px;object-fit:cover;display:block;}
+.photo-grid-2{display:grid;grid-template-columns:2fr 1fr;gap:1px;margin-bottom:2rem;}
+.photo-grid-2 img{width:100%;height:220px;object-fit:cover;display:block;}
+.feature-row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem;}
+.feature-box{background:#f8f8f8;border-radius:12px;padding:1.25rem;border:1px solid #e5e5e5;}
+.feature-box h3{font-size:14px;font-weight:500;margin-bottom:0.25rem;}
+.feature-box p{font-size:12px;color:#888;line-height:1.7;}
+.cat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-bottom:2rem;}
+.cat-card{border:1px solid #e5e5e5;border-radius:12px;overflow:hidden;}
+.cat-card img{width:100%;height:240px;object-fit:cover;display:block;}
+.cat-info{padding:1.25rem;}
+.cat-info h3{font-size:16px;font-weight:500;margin-bottom:0.25rem;}
+.cat-info .breed{font-size:11px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:0.75rem;}
+.cat-info p{font-size:13px;color:#555;line-height:1.7;}
+.menu-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;margin-bottom:2rem;}
+.menu-cat{font-size:12px;letter-spacing:2px;color:#888;margin-bottom:0.75rem;}
+.menu-item{display:flex;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid #e5e5e5;font-size:13px;}
+.menu-item span:last-child{color:#888;font-family:monospace;}
+.plan-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;}
+.plan{background:#f8f8f8;border-radius:12px;padding:1.25rem;border:1px solid #e5e5e5;text-align:center;}
+.plan.best{border:2px solid #378add;}
+.plan-badge{font-size:11px;background:#e6f1fb;color:#185fa5;padding:2px 10px;border-radius:8px;margin-bottom:0.5rem;display:inline-block;}
+.plan h3{font-size:13px;font-weight:500;margin-bottom:0.5rem;}
+.plan-price{font-size:22px;font-weight:500;}
+.plan-price small{font-size:11px;color:#888;}
+.plan p{font-size:12px;color:#888;margin-top:0.5rem;line-height:1.6;}
+.access-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:2rem;}
+.access-card{background:#f8f8f8;border-radius:12px;padding:1.25rem;border:1px solid #e5e5e5;}
+.access-card h3{font-size:11px;letter-spacing:2px;color:#888;margin-bottom:0.75rem;}
+.access-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:0.5rem;font-size:13px;line-height:1.6;color:#222;}
+.map-box{height:140px;background:#f8f8f8;border-radius:12px;border:1px solid #e5e5e5;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;color:#888;font-size:13px;margin-bottom:2rem;}
+.contact-form{max-width:560px;margin:0 auto;}
+.form-group{margin-bottom:1.25rem;}
+.form-group label{display:block;font-size:12px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:0.5rem;}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:0.75rem 1rem;border:1px solid #e5e5e5;border-radius:8px;font-family:Georgia,serif;font-size:13px;color:#222;background:#fff;outline:none;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:#888;}
+.form-group textarea{height:140px;resize:vertical;}
+.submit-btn{width:100%;padding:0.85rem;background:#222;color:#fff;border:none;border-radius:8px;font-size:13px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;}
+.submit-btn:hover{background:#444;}
+.success-msg{display:none;text-align:center;padding:2rem;background:#f8f8f8;border-radius:12px;border:1px solid #e5e5e5;font-size:14px;color:#555;margin-top:1rem;}
+footer{text-align:center;padding:1.5rem;border-top:1px solid #e5e5e5;font-size:11px;color:#888;letter-spacing:3px;}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">W E S T</div>
+  <ul class="nav-links">
+    <li><a class="active" onclick="show('home',this)">home</a></li>
+    <li><a onclick="show('menu',this)">menu</a></li>
+    <li><a onclick="show('cats',this)">cats</a></li>
+    <li><a onclick="show('access',this)">access</a></li>
+    <li><a onclick="show('contact',this)">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1200&q=80" alt="図書館の雰囲気">
+  <div class="hero-overlay">
+    <h1>W E S T</h1>
+    <p>manga café — shibuya</p>
+  </div>
+  <div class="section">
+    <p class="section-label">gallery</p>
+    <div class="photo-grid-2">
+      <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=800&q=80" alt="カフェ内装">
+      <img src="https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=400&q=80" alt="ジャズ">
+    </div>
+    <div class="photo-grid">
+      <img src="https://images.unsplash.com/photo-1612296727716-d7a5e0b2e9f7?w=400&q=80" alt="コーヒー">
+      <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&q=80" alt="本棚">
+      <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=400&q=80" alt="カフェ">
+    </div>
+    <p class="section-label">about</p>
+    <div class="feature-row">
+      <div class="feature-box">
+        <h3>jazz & relax</h3>
+        <p>渋谷の喧騒を忘れる西洋風の空間。アンティーク調の家具に囲まれてゆっくりお過ごしください。</p>
+      </div>
+      <div class="feature-box">
+        <h3>10,000冊以上</h3>
+        <p>漫画から洋書まで幅広いジャンルを取り揃えています。</p>
+      </div>
+      <div class="feature-box">
+        <h3>open 24h</h3>
+        <p>24時間365日営業。渋谷で遊んだ後も深夜まで安心してご利用いただけます。</p>
+      </div>
+      <div class="feature-box">
+        <h3>2匹の看板猫</h3>
+        <p>ラグドールのMilesとミヌエットのEllaが店内を自由に歩き回っています。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU -->
+<div id="menu" class="page">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&q=80" alt="コーヒー">
+  <div class="section">
+    <p class="section-label">drinks & food</p>
+    <div class="menu-cols">
+      <div>
+        <div class="menu-cat">drinks</div>
+        <div class="menu-item"><span>コーヒー</span><span>¥400</span></div>
+        <div class="menu-item"><span>カフェラテ</span><span>¥500</span></div>
+        <div class="menu-item"><span>紅茶</span><span>¥400</span></div>
+        <div class="menu-item"><span>オレンジジュース</span><span>¥450</span></div>
+        <div class="menu-item"><span>ソフトドリンク</span><span>¥350</span></div>
+        <div class="menu-item"><span>ビール</span><span>¥600</span></div>
+      </div>
+      <div>
+        <div class="menu-cat">food</div>
+        <div class="menu-item"><span>トースト</span><span>¥350</span></div>
+        <div class="menu-item"><span>ホットサンド</span><span>¥550</span></div>
+        <div class="menu-item"><span>カレー</span><span>¥750</span></div>
+        <div class="menu-item"><span>ポテトフライ</span><span>¥400</span></div>
+      </div>
+    </div>
+    <p class="section-label">plans</p>
+    <div class="plan-row">
+      <div class="plan">
+        <h3>3時間パック</h3>
+        <div class="plan-price">¥1,200<small>/3h</small></div>
+        <p>気軽に立ち寄りたい方に</p>
+      </div>
+      <div class="plan best">
+        <div class="plan-badge">人気</div>
+        <h3>6時間パック</h3>
+        <div class="plan-price">¥1,800<small>/6h</small></div>
+        <p>じっくり読みたい方に</p>
+      </div>
+      <div class="plan">
+        <h3>ナイトパック</h3>
+        <div class="plan-price">¥2,000<small>/10h</small></div>
+        <p>深夜〜朝までゆっくり</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CATS -->
+<div id="cats" class="page">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1511044568932-338cba0ad803?w=1200&q=80" alt="猫">
+  <div class="section">
+    <p class="section-label">our cats</p>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&q=80" alt="Miles">
+        <div class="cat-info">
+          <h3>Miles</h3>
+          <div class="breed">Ragdoll — ラグドール</div>
+          <p>大きくてふわふわな白猫のオス。人懐っこくお客様の膝の上でよく眠っています。抱っこが大好きで、名前を呼ぶと必ず振り向きます。</p>
+        </div>
+      </div>
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=600&q=80" alt="Ella">
+        <div class="cat-info">
+          <h3>Ella</h3>
+          <div class="breed">Minuet — ミヌエット</div>
+          <p>短い足がチャームポイントのメス。マイペースで本棚の上が定位置。ジャズが流れると気持ちよさそうにうとうとしています。</p>
+        </div>
+      </div>
+    </div>
+    <div style="background:#f8f8f8;border-radius:12px;padding:1rem 1.25rem;border:1px solid #e5e5e5;font-size:13px;color:#888;line-height:1.8;">
+      猫アレルギーの方はご注意ください。猫は自由に店内を移動しています。
+    </div>
+  </div>
+</div>
+
+<!-- ACCESS -->
+<div id="access" class="page">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1200&q=80" alt="渋谷">
+  <div class="section">
+    <div class="map-box">
+      <span style="font-size:28px;">📍</span>
+      <span>東京都渋谷区渋谷</span>
+    </div>
+    <div class="access-grid">
+      <div class="access-card">
+        <h3>location</h3>
+        <div class="access-row">📍 東京都渋谷区渋谷2-XX-XX<br>渋谷ウエストビル 3F</div>
+        <div class="access-row">🚃 JR渋谷駅 ハチ公口より徒歩5分</div>
+      </div>
+      <div class="access-card">
+        <h3>hours & contact</h3>
+        <div class="access-row">🕐 24時間営業（年中無休）</div>
+        <div class="access-row">📞 03-XXXX-XXXX</div>
+        <div class="access-row">✉️ info@west-cafe.jp</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+  <img class="hero-img" src="https://images.unsplash.com/photo-1423345018870-e1a54f5e9a1b?w=1200&q=80" alt="お問い合わせ">
+  <div class="hero-overlay">
+    <h1 style="font-size:24px;letter-spacing:6px;">C O N T A C T</h1>
+    <p>お気軽にお問い合わせください</p>
+  </div>
+  <div class="section">
+    <p class="section-label">お問い合わせフォーム</p>
+    <div class="contact-form">
+      <div class="form-group">
+        <label>お名前</label>
+        <input type="text" placeholder="山田 太郎">
+      </div>
+      <div class="form-group">
+        <label>メールアドレス</label>
+        <input type="email" placeholder="example@email.com">
+      </div>
+      <div class="form-group">
+        <label>お問い合わせ種別</label>
+        <select>
+          <option>ご予約について</option>
+          <option>料金プランについて</option>
+          <option>猫について</option>
+          <option>その他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>メッセージ</label>
+        <textarea placeholder="お問い合わせ内容をご記入ください"></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">送 信</button>
+      <div class="success-msg" id="success">
+        お問い合わせありがとうございます。<br>
+        3営業日以内にご返信いたします。
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 WEST manga café — shibuya</footer>
+
+<script>
+function show(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+function submitForm(){
+  document.getElementById('success').style.display='block';
+}
+</script>
+</body>
+</html>
